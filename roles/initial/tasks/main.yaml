@@ -1,0 +1,12 @@
+- name: Update apt-get
+  apt:
+    update_cache: yes
+
+- name: dev locale
+  action: command sudo update-locale LC_ALL=en_US.UTF-8
+
+- name: set default locale
+  sudo: yes
+  lineinfile: dest=/etc/default/locale
+    regexp="LC_ALL"
+    line="LC_ALL=\"en_US.UTF-8\""

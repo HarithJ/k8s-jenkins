@@ -1,0 +1,23 @@
+- name: Installing nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: Copy the script that configures nginx server to home directory
+  copy:
+    src: files/config-nginx.sh
+    dest: /home/ubuntu/
+
+- name: copy the systemd file that would run the nginx config script on boot
+  copy:
+    src: files/config-nginx.service
+    dest: /etc/systemd/system/
+
+- name: Changing perm of nginx-config.sh, adding "+x"
+  file: dest=/home/ubuntu/config-nginx.sh mode=a+x
+
+- name: start config-nginx Service
+  systemd:
+    name: config-nginx
+    state: restarted
+    enabled: yes

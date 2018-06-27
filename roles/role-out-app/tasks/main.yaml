@@ -1,0 +1,24 @@
+- name: Copy the script that will spin up the cluster
+  copy:
+    src: files/cluster.sh
+    dest: /home/ubuntu/
+
+- name: Copy the service that will run the script that spins up the cluster
+  vars:
+    DOCKER_USER_ID: "{{ DOCKER_USER_ID }}"
+    DOCKER_PASSWORD: "{{ DOCKER_PASSWORD }}"
+    CLUSTER_NAME: "{{ CLUSTER_NAME }}"
+    CLUSTER_ZONE: "{{ CLUSTER_ZONE }}"
+    KOPS_STATE_STORE: "{{ KOPS_STATE_STORE }}"
+  template:
+    src: files/cluster.j2
+    dest: /etc/systemd/system/cluster.service
+
+- name: Changing perm of cluster.sh, adding "+x"
+  file: dest=/home/ubuntu/cluster.sh mode=a+x
+
+# - name: start cluster service
+#   systemd:
+#     name: cluster
+#     state: started
+#     enabled: no

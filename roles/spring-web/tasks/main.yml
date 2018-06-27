@@ -1,0 +1,22 @@
+- name: Install latest version of "openjdk-8-jdk" ignoring "install-recommends"
+  apt:
+    name: openjdk-8-jdk
+    state: latest
+    install_recommends: no
+
+- name: Install maven
+  apt:
+    name: maven
+    state: present
+
+- name: Install spring-web project dependencies
+  shell:
+    chdir: "{{ project_dir }}/sa-webapp"
+    cmd:
+      sudo mvn install
+
+# - name: define property of where our python app will be running
+#   shell:
+#     chdir: "{{ project_dir }}/sa-webapp"
+#     cmd:
+#       java -jar sentiment-analysis-web-0.0.1-SNAPSHOT.jar --sa.logic.api.url=http://localhost:5000

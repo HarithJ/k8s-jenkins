@@ -1,0 +1,25 @@
+- name: Install latest version of "openjdk-8-jdk" ignoring "install-recommends"
+  apt:
+    name: openjdk-8-jdk
+    state: latest
+    install_recommends: no
+
+- name: install jenkins - add key
+  shell: wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
+  args:
+    warn: False
+
+- name: jenkins - echo
+  shell: echo deb https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list
+
+- name: apt update
+  shell: sudo apt-get update
+
+- name: install jenkins
+  command: sudo apt-get install jenkins -y
+
+- name: start jenkins
+  service:
+    name: jenkins
+    enabled: yes
+    state: started

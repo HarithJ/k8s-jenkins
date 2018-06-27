@@ -1,0 +1,14 @@
+[Unit]
+Description=Create cluster and deploy the microservice
+
+[Service]
+Type=oneshot
+Environment="DOCKER_USER_ID={{ DOCKER_USER_ID }}"
+Environment="DOCKER_PASSWORD={{ DOCKER_PASSWORD }}"
+Environment="CLUSTER_NAME={{ CLUSTER_NAME }}"
+Environment="CLUSTER_ZONE={{ CLUSTER_ZONE }}"
+Environment="KOPS_STATE_STORE={{ KOPS_STATE_STORE }}"
+ExecStart=/home/ubuntu/cluster.sh
+
+[Install]
+WantedBy=multi-user.target

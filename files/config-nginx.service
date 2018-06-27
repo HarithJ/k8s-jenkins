@@ -1,0 +1,9 @@
+[Unit]
+Description=Configure Nginx server
+
+[Service]
+Type=oneshot
+ExecStart=/home/ubuntu/config-nginx.sh
+
+[Install]
+WantedBy=multi-user.target

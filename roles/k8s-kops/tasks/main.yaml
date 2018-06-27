@@ -1,0 +1,26 @@
+- name: Install kubectl
+  shell: sudo apt-get update && sudo apt-get install -y apt-transport-https
+
+- name: Install kubectl
+  shell: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
+- name: Install kubectl
+  shell: sudo touch /etc/apt/sources.list.d/kubernetes.list
+
+- name: Install kubectl
+  shell: echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+
+- name: Install kubectl
+  shell: sudo apt-get update
+
+- name: Install kubectl
+  shell: sudo apt-get install -y kubectl
+
+- name: Install kops
+  shell: wget https://github.com/kubernetes/kops/releases/download/1.8.0/kops-linux-amd64
+
+- name: Install kops
+  shell: chmod +x kops-linux-amd64
+
+- name: Install kops
+  shell: mv kops-linux-amd64 /usr/local/bin/kops

@@ -1,0 +1,52 @@
+---
+- name: Ensure ppa exists to install python3.6
+  apt_repository: repo=ppa:deadsnakes/ppa
+
+- name: Ensure python3.6 is installed
+  apt:
+    name: python3.6
+    force: yes
+    state: present
+    update_cache: yes
+
+- name: Ensure build-essential is installed
+  apt:
+    pkg: build-essential
+    force: yes
+    state: present
+    update_cache: yes
+
+- name: Ensure python3.6-dev is installed
+  apt:
+    pkg: python3.6-dev
+    force: yes
+    state: present
+    update_cache: yes
+
+- name: Ensure python3-pip
+  apt:
+    name: "{{ item }}"
+    force: yes
+    state: present
+  with_items:
+    - python3-pip
+
+- name: Install the requirements
+  shell:
+    chdir: "{{ project_dir }}/sa-logic/sa"
+    cmd:
+      python3.6 -m pip install -r requirements.txt
+
+- name: install textblob.download_corpora module
+  shell:
+    chdir: "{{ project_dir }}/sa-logic/sa"
+    cmd:
+      python3.6 -m textblob.download_corpora
+
+
+
+# - name: start app
+#   shell:
+#     chdir: "{{ project_dir }}/sa-logic/sa"
+#     cmd:
+#       python3.6 sentiment_analysis.py

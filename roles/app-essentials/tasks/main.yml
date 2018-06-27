@@ -1,0 +1,46 @@
+- name: Update apt-get
+  apt:
+    update_cache: yes
+
+- name: Set microservice directory path
+  set_fact:
+    project_dir: /var/project/microservice-app
+
+- name: Add node
+  shell: curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+
+- name: Installing nodejs, nginx, build-essential
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - nodejs
+    - nginx
+    - build-essential
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+
+- name: Add Docker’s official GPG key
+  shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+- name: Set up docker's repository
+  shell: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+- name: update apt-get
+  shell: sudo apt-get update
+
+- name: install docker
+  shell: sudo apt-get install -y docker-ce
+
+- name: create project directory
+  file:
+    path: /var/project
+    state: directory
+
+- name: clone the microservice repo
+  git:
+    repo: https://github.com/{{ github_user }}/k8s-mastery.git
+    dest: /var/project/microservice-app
+    force: yes

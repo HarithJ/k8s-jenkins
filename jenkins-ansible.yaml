@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    ansible_python_interpreter: "/usr/bin/python3"
+  roles:
+     - initial
+     - jenkins
+     - nginx
+     - k8s-kops
+     - app-essentials
+     - spring-web
+     - python
+     - role-out-app
